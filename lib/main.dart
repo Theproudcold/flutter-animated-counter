@@ -82,35 +82,8 @@ class _MyHomePageState extends State<MyHomePage> {
           width: 200,
           height: 120,
           color: Colors.blue,
-          child: TweenAnimationBuilder(
-            tween: Tween(end: _counter.toDouble()),
-            duration: const Duration(seconds: 1),
-            builder: (context, value, child) {
-              final whole = value ~/ 1;
-              final decimal = value - whole;
-              return Stack(
-                children: [
-                  Positioned(
-                    top: -100 * decimal, // 0 ~ -100
-                    child: Text(
-                      " $whole",
-                      style: TextStyle(
-                          fontSize: 100,
-                          color: Colors.white.withOpacity(1 - decimal)),
-                    ),
-                  ),
-                  Positioned(
-                    top: 100 - decimal * 100, // 0 ~ 100
-                    child: Text(
-                      " ${whole + 1}",
-                      style: TextStyle(
-                          fontSize: 100,
-                          color: Colors.white.withOpacity(decimal)),
-                    ),
-                  ),
-                ],
-              );
-            },
+          child: Counter(
+            value: _counter,
           ),
         ),
       ),
@@ -119,6 +92,44 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+class Counter extends StatelessWidget {
+  final int value;
+
+  const Counter({super.key, required this.value});
+  @override
+  Widget build(BuildContext context) {
+    return TweenAnimationBuilder(
+      tween: Tween(end: value.toDouble()),
+      duration: const Duration(seconds: 1),
+      builder: (context, value, child) {
+        final whole = value ~/ 1;
+        final decimal = value - whole;
+        return Stack(
+          children: [
+            Positioned(
+              top: -100 * decimal, // 0 ~ -100
+              child: Text(
+                " $whole",
+                style: TextStyle(
+                    fontSize: 100,
+                    color: Colors.white.withOpacity(1 - decimal)),
+              ),
+            ),
+            Positioned(
+              top: 100 - decimal * 100, // 0 ~ 100
+              child: Text(
+                " ${whole + 1}",
+                style: TextStyle(
+                    fontSize: 100, color: Colors.white.withOpacity(decimal)),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
